@@ -1,2 +1,7 @@
 # User IDE customization
-./idea
+.idea/
+
+# __pycache__
+booksapp/__pycache__/
+booksapp/migrations/__pycache__/
+bookvault/__pycache__/
