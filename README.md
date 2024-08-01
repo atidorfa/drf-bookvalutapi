@@ -3,35 +3,12 @@ API REST with python and django rest framework
 
 ##  How to run?
 
-Clone repository
-```
-git clone https://github.com/atidorfa/drf-bookvaultapi
-```
+- Clone repository
 
-Change directory
-```
-cd drf-bookvaultapi
-```
+- Docker-compose up (for MySQL database docker)
 
-Docker-compose
-```
-docker-compose up
-```
+- Install dependecies in requirements.txt
 
-Pipenv instalation
-```
-pip install pipenv
-```
-
-Select pipenv virtual enviroment
-```
-pipenv shell
-```
-
-Install dependecies
-```
-pipenv install
-```
 
 Run Local Server
 ```
