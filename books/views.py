@@ -54,26 +54,28 @@ class BookInfoView(APIView):
             if isinstance(book_info, str):
                 book_info = json.loads(book_info)
 
-            # Assuming book_info contains the necessary fields, add book into db
-            book = Book.objects.create(
-                isbn=isbn,
-                title=book_info['title'],
-                author=book_info['author'],
-                first_publish_year=book_info['first_publish_year'],
-                first_sentence=book_info['first_sentence']
-            )
-            book.save()
+            try:
+                book = Book.objects.create(
+                    isbn=isbn,
+                    title=book_info['title'],
+                    author=book_info['author'],
+                    first_publish_year=book_info['first_publish_year'],
+                    first_sentence=book_info['first_sentence']
+                )
+                book.save()
 
-            return Response({
-                'message': 'success',
-                'book': {
-                    'isbn': book.isbn,
-                    'title': book.title,
-                    'author': book.author,
-                    'first_publish_year': book.first_publish_year,
-                    'first_sentence': book.first_sentence,
-                }
-            }, status=status.HTTP_201_CREATED)
+                return Response({
+                    'message': 'success',
+                    'book': {
+                        'isbn': book.isbn,
+                        'title': book.title,
+                        'author': book.author,
+                        'first_publish_year': book.first_publish_year,
+                        'first_sentence': book.first_sentence,
+                    }
+                }, status=status.HTTP_201_CREATED)
+            except KeyError:
+                return Response({"error": "No book found for the given ISBN"})
 
         except requests.exceptions.RequestException as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
