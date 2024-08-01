@@ -1,3 +1,4 @@
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -6,10 +7,18 @@ import json
 import datetime
 from .models import Book, BookReview
 from .serializers import BookReviewSerializer
+from rest_framework.exceptions import NotAuthenticated
 
 
 class BookInfoView(APIView):
+    # permission_classes = [IsAuthenticated]
+
     def get(self, request):
+
+        token = request.COOKIES.get('jwt')
+        if not token:
+            raise NotAuthenticated('Unauthenticated!')
+
         isbn = request.query_params.get('isbn')
         if not isbn:
             return Response({"error": "ISBN query parameter is required."}, status=400)
@@ -74,6 +83,10 @@ class RegisterBookReviewView(APIView):
     # permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        token = request.COOKIES.get('jwt')
+        if not token:
+            raise NotAuthenticated('Unauthenticated!')
+
         isbn = request.data.get('isbn')
         review_title = request.data.get('review_title')
         comment = request.data.get('comment')
@@ -104,6 +117,10 @@ class BookReviewsByISBNView(APIView):
     # permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        token = request.COOKIES.get('jwt')
+        if not token:
+            raise NotAuthenticated('Unauthenticated!')
+
         isbn = request.query_params.get('isbn')
         if not isbn:
             return Response({"error": "ISBN query parameter is required."}, status=status.HTTP_400_BAD_REQUEST)
