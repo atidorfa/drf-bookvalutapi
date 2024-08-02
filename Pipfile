@@ -11,6 +11,8 @@ pyjwt = "*"
 django-cors-headers = "*"
 boto3 = "*"
 requests = "*"
+whitenoise = "*"
+gunicorn = "*"
 
 [dev-packages]
 
